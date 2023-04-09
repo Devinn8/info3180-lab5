@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import AppHeader from "@/components/AppHeader.vue";
 import AppFooter from "@/components/AppFooter.vue";
+import MovieForm from "@/components/MovieForm.vue";
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import AppFooter from "@/components/AppFooter.vue";
 
   <main>
     <RouterView />
+    <MovieForm />
   </main>
   
   <AppFooter />
