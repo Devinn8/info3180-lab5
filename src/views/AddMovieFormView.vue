@@ -1,19 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import MovieForm from "@/components/MovieForm.vue";
-let movies = ref([])
 
-onMounted(() => {
-    fetch("/api/v1/movies")
-    .then((resp) => resp.json())
-    .then((data) => {
-        movies.value = data.movies;
-    })
-    .catch((err) => console.log(err));
-})
-const update = (e) => {
-    movies.value = e;
-};
+import MovieForm from "@/components/MovieForm.vue";
+
 </script>
 
 <template>
