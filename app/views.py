@@ -6,7 +6,7 @@ This file creates your application.
 """
 
 from app import app, db
-from flask import render_template, request, jsonify, send_file, flash
+from flask import render_template, request, jsonify, send_file, flash, send_from_directory
 import os
 from .models import MovieProfile
 from app.forms import MovieForm
@@ -32,6 +32,29 @@ def index():
 
 @app.route("/api/v1/movies", methods=['POST'])
 def movie_post():
+    
+    if request.method == "POST":
+        form = MovieForm()
+        if form.validate_on_submit():
+            fileobj = request.files['poster']
+            sanitizedname = secure_filename(fileobj.filename)
+            if fileobj and (sanitizedname != "" and sanitizedname != " "):
+                fileobj.save(os.path.join(app.config['UPLOAD_FOLDER'], sanitizedname))
+                title = form.title.data
+                description = form.description.data
+                new_movie = MovieProfile(title,description,fileobj)
+                db.session.add(new_movie)
+                db.session.commit()
+                feedback= {
+                    "message": "Movie Successfully added",
+                    "title": form.title.data,
+                    "poster": form.poster.data,
+                    "description": form.description.data
+                }
+                return jsonify(feedback)
+        return jsonify(form_errors(form))
+    return jsonify({'message': 'This is a problem'})
+    
     form = MovieForm()
     if form.validate_on_submit():
         poster = form.poster.data
@@ -44,7 +67,7 @@ def movie_post():
         db.session.commit()
         flash('Movie successfully added', 'success')
     form_errors(form)
-    return jsonify(data=new_movie)
+    return jsonify(data=new_movie.serialize())
     
     
 
@@ -52,6 +75,9 @@ def movie_post():
 def get_csrf():
  return jsonify({'csrf_token': generate_csrf()})
 
+@app.route("/api/v1/images/<path:filename>")
+def getImage(filename):
+    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
 
 # Here we define a function to collect form errors from Flask-WTF
 # which we can later use

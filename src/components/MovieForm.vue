@@ -9,16 +9,16 @@ let message = ref("Successfully added!")
 
 function getCsrfToken() {
  fetch('/api/v1/csrf-token')
- .then((response) => response.json())
- .then((data) => {
- console.log(data);
- csrf_token.value = data.csrf_token;
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+        csrf_token.value = data.csrf_token;
  })
  }
 
  onMounted(() => {
  getCsrfToken();
-});
+    });
 
 const saveMovie = () => {
     let movieForm = document.getElementById('movieForm');
@@ -36,7 +36,6 @@ const saveMovie = () => {
     })
     .then(function (data) {
         // display a success message
-        {{ message }}
         console.log(data);
     })
     .catch(function (error) {
@@ -49,7 +48,7 @@ const saveMovie = () => {
 </script>
 
 <template>
-<form method='POST' @submit.prevent="saveMovie" id="movieForm" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+<form method='POST' @submit.prevent="saveMovie" id="movieForm" >
     <div class="row">
         <div class="col-md-4">
             <div class="form-group mb-3">

@@ -10,7 +10,7 @@ import MovieForm from "@/components/MovieForm.vue";
 
   <main>
     <RouterView />
-    <MovieForm />
+   
   </main>
   
   <AppFooter />

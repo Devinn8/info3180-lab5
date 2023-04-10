@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import MovieForm from "@/components/MovieForm.vue";
-let movies = ref([])
+const props = defineProps(['movies'])
 onMounted(() => {
     fetch('/api/v1/movies')
     .then((resp) => resp.json())
@@ -17,7 +17,7 @@ const update = (e) => {
 
 <template>
     <main class="container py-5">
-        <h1 class="display-1 mb-3">movies</h1>
+        <h1 class="display-1 mb-3">Add a Movie</h1>
         <MovieForm :movies="movies" @add-item="update" />
         <ul>
             <li v-for="movie in movies" :key="movie.id">{{ movie.title }}</li>
