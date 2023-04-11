@@ -1,26 +1,3 @@
-<template>
-    <span id="msg" class=" form-control alert" >
-    </span>
-    <form id="movieForm" @submit.prevent="saveMovie">
-        <fieldset class="form-group">
-            <div class="form-group mb-3">
-                <label for="title" class="form-label">Movie Title</label>
-                <input id="title" type="text" name="title" class="form-control" />
-            </div>
-            <div class="form-group mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" rows="3" name="description" ></textarea>
-            </div>
-            <div class="form-group mb-3">
-                <input id="poster" type="file" name="poster" class="form-control" accept="image/jpeg, image/jpg, image/png" />
-            </div>
-        </fieldset>
-        <div class = "form-group">
-            <button type="submit" class ="btn btn-primary">Submit</button>
-        </div>
-    </form>
-</template>
-
 <script setup>
     import { ref, onMounted } from "vue";
     let csrf_token = ref("");
@@ -46,7 +23,6 @@
                    // display a success message
                    alertcontainer.classList.remove('hide');
                    if (Array.isArray(data.errors)){
-                        //console.log("hey man");
                        alertcontainer.innerHTML = '';
                        self.errorlist = data.errors;
                        alertcontainer.classList.remove('alert-success');
@@ -94,7 +70,7 @@
                       
                    }
                    else{
-                    console.log("hey man");
+                    console.log("Testing");
                         document.querySelector('#title').classList.remove('errhighlight');
                        document.querySelector('#description').classList.remove('errhighlight');
                        document.querySelector('#poster').classList.remove('errhighlight');
@@ -120,6 +96,31 @@
            
            }
 </script>
+
+<template>
+    <span id="msg" class=" form-control alert" >
+    </span>
+    <form id="movieForm" @submit.prevent="saveMovie">
+        <fieldset class="form-group">
+            <div class="form-group mb-3">
+                <label for="title" class="form-label">Movie Title</label>
+                <input id="title" type="text" name="title" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" rows="3" name="description" ></textarea>
+            </div>
+            <div class="form-group mb-3">
+                <input id="poster" type="file" name="poster" class="form-control" accept="image/jpeg, image/jpg, image/png" />
+            </div>
+        </fieldset>
+        <div class = "form-group">
+            <button type="submit" class ="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</template>
+
+
 <style>
 form *{
    margin-bottom: 1em;

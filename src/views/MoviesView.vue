@@ -1,3 +1,24 @@
+<template>
+  <div class="movies-container">
+    <div class="movie-card" v-for="movie in movies">
+      <div class="card mb-3" >
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img :src=movie.poster id="posterpic" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-7" >
+          <div class="card-body">
+            <h5 class="card-title">{{movie.title}}</h5>
+            <p class="card-text">{{movie.description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+</template>
+
 <script setup>
     import { ref, onMounted } from "vue";
     let movies = ref([]);
@@ -6,6 +27,14 @@
         getCsrfToken();
         fetchMovies();
     });
+    function getCsrfToken() {
+    fetch("/api/v1/csrf-token")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        csrf_token.value = data.csrf_token;
+      });
+    }
     function fetchMovies() {
     
     fetch("/api/v1/movies", {
@@ -24,48 +53,21 @@
         console.log(error);
       });
     }
-  function getCsrfToken() {
-    fetch("/api/v1/csrf-token")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        csrf_token.value = data.csrf_token;
-      });
-  }
+  
 </script>
-
-<template>
-    <div class="movies-container">
-      <div class="movie-card" v-for="movie in movies">
-        <div class="card mb-3" >
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img :src=movie.poster id="movie-poster" class="img-fluid rounded-start" alt="...">
-          </div>
-          <div class="col-md-7" >
-            <div class="card-body">
-              <h5 class="card-title">{{movie.title}}</h5>
-              <p class="card-text">{{movie.description}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-
-</template>
 
 <style>
   .movies-container{
     display: grid;
+    grid-gap: 10px;
     grid-template-columns: auto auto;
     justify-content: center;
-    grid-gap: 10px;
+    
   }
   .card{
     max-width: 500px;
   }
-  #movie-poster{
+  #posterpic{
     height: 300px;
     width: 200px;
     object-fit: cover;
